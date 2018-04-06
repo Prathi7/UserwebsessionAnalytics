@@ -49,12 +49,13 @@ class Solution(object):
         self.records_dic = collections.OrderedDict()
 
     def record(self,inputrecord, session_duration, outputfile):
-        temp={}
+        temp=[]
         for key,value in self.records_dic.items():
             if value.sessionenddatetime < inputrecord.startdatetime: # if session has ended, write to o/p file
                 outputfile.write(value.output()+"\n")
-                temp[key]=value
-        all(map(self.records_dic.pop,temp))
+                #del self.records_dic[key]
+                temp.append(key)
+        [self.records_dic.pop(k) for k in temp]
 
         if not inputrecord.ip in self.records_dic: #if not in Dictionary, add key & values
             self.records_dic[inputrecord.ip]= Session(inputrecord, session_duration)
