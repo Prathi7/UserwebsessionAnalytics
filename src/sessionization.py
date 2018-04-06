@@ -1,6 +1,6 @@
 """
 * * * * * * * * * * * * * * * * * * * * * * *
-INSIGHT DataEngineering- Solution 
+INSIGHT DataEngineering- Solution
 April 5,2018
 * * * * * * * * * * * * * * * * * * * * * * *
 """
@@ -8,7 +8,7 @@ April 5,2018
 
 import datetime
 import collections
-import argparse
+import sys
 
 
 def datetime_str(recorddatetime):
@@ -48,7 +48,7 @@ class ReadRecord:
         self.doc = (splits[4], splits[5], splits[6])
 
 class Solution(object):
-    
+
     def __init__(self):
         self.records_dic = collections.OrderedDict()
 
@@ -67,16 +67,14 @@ class Solution(object):
             self.records_dic[inputrecord.ip].update(inputrecord, session_duration)
 
     def run(self):
-        parser = argparse.ArgumentParser()      
-        parser.add_argument()
-        argv= parser.parse_args()
-        
-        with open(argv[1],"r") as iptxt:#Read i/p .txt file
+        argv = sys.argv
+
+        with open(argv[2],"r") as iptxt:#Read i/p .txt file
             session_duration=datetime.timedelta(seconds=int(iptxt.read()))#Convert to time format
-            
-        optxt=open(argv[2],"w+")#create o/p .txt file
-        
-        with open(argv[0], "r") as f:#Read each line of i/p .csv file
+
+        optxt=open(argv[3],"w+")#create o/p .txt file
+
+        with open(argv[1], "r") as f:#Read each line of i/p .csv file
             f.readline() #skip header
             for line in f :
                 inputrecord = ReadRecord(line)
